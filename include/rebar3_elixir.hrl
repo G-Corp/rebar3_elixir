@@ -61,7 +61,7 @@
   end
 
   defp trim(x) do
-    if Version.compare(System.version, "1.5.0") == :lt do
+    if Version.compare(System.version, \"1.5.0\") == :lt do
       String.strip(x)
     else
       String.trim(x)
