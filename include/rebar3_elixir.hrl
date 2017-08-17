@@ -53,11 +53,19 @@
     for command <- commands, do: (fn
       ({regex, cmd}) ->
          if Regex.match?(Regex.compile!(regex), Atom.to_string(os)) do
-           Mix.Shell.cmd cmd, [], fn(x) -> Mix.Shell.IO.info(String.trim(x)) end
+           Mix.Shell.cmd cmd, [], fn(x) -> Mix.Shell.IO.info(trim(x)) end
          end
       (cmd) ->
-        Mix.Shell.cmd cmd, [], fn(x) -> Mix.Shell.IO.info(String.trim(x)) end
+        Mix.Shell.cmd cmd, [], fn(x) -> Mix.Shell.IO.info(trim(x)) end
       end).(command)
+  end
+
+  defp trim(x) do
+    if Version.compare(System.version, "1.5.0") == :lt do
+      String.strip(x)
+    else
+      String.trim(x)
+    end
   end
 end").
 
