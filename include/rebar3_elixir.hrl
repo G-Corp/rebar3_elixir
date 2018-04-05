@@ -62,10 +62,9 @@
 
   defp trim(x) do
     if Version.compare(System.version, \"1.5.0\") == :lt do
-      String.strip(x)
+      Kernel.apply(String, :strip, [x])
     else
-      String.trim(x)
+      Kernel.apply(String, :trim, [x])
     end
   end
 end").
-
