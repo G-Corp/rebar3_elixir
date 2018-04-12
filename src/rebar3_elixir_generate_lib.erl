@@ -65,7 +65,7 @@ generate_binding({ModuleName, Options}, Ebin, LibDir, ElixirVersion, Prefix) ->
                  end,
   LibFile = filename:join(LibDir, ExModuleName ++ ".ex"),
   Module = case code:load_abs(filename:join(Ebin, atom_to_list(ModuleName))) of
-             {error, Reason0} -> 
+             {error, Reason0} ->
                rebar_api:abort("Can't load module ~s: ~p", [ModuleName, Reason0]);
              {module, M} ->
                M
@@ -84,7 +84,7 @@ generate_binding({ModuleName, Options}, Ebin, LibDir, ElixirVersion, Prefix) ->
        end,
   io:format(IO, "# File: ~s.ex\n", [ExModuleName]),
   io:format(IO, "# This file was generated from ~s.beam\n", [ModuleName]),
-  io:format(IO, "# Using rebar3_elixir (https://github.com/botsunit/rebar3_elixir)\n", []),
+  io:format(IO, "# Using rebar3_elixir (https://github.com/G-Corp/rebar3_elixir)\n", []),
   io:format(IO, "# MODIFY IT AT YOUR OWN RISK AND ONLY IF YOU KNOW WHAT YOU ARE DOING!\n", []),
   io:format(IO, "defmodule ~s do\n", [ExModuleName]),
   HasCallbacks = write_callbacks(IO, Module),
@@ -113,7 +113,7 @@ write_optional_callbacks(IO, Module) ->
   case erlang:function_exported(Module, behaviour_info, 1) of
     true ->
       case erlang:apply(Module, behaviour_info, [optional_callbacks]) of
-        [] -> 
+        [] ->
           false;
         OptionalCallbacks ->
           io:format(IO, "  @optional_callbacks ~s\n", [to_ex(OptionalCallbacks)]),
@@ -143,7 +143,7 @@ write_functions(IO, Module, ModuleName, Except, Only) ->
                             ok
                         end
                     end, MI);
-    _-> 
+    _->
       rebar_api:abort("Can't retrieve module info for ~s", [ModuleName])
   end.
 
@@ -172,4 +172,3 @@ to_ex(Atom) when is_atom(Atom) ->
 to_ex(Num) when is_integer(Num);
                 is_float(Num) ->
   ?FMT("~p", [Num]).
-
