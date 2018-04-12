@@ -1,7 +1,7 @@
 -define(DEFAULT_ELIXIR_VERSION, "~> 1.2").
 -define(FMT(F, V), lists:flatten(io_lib:format(F, V))).
 -define(MIX_EXS, "# File: mix.exs
-# This file was generated from rebar.config
+# This file was generated from rebar.config
 # Using rebar3_elixir (https://github.com/G-Corp/rebar3_elixir)
 # MODIFY IT AT YOUR OWN RISK AND ONLY IF YOU KNOW WHAT YOU ARE DOING!
 defmodule ~s.Mixfile do
