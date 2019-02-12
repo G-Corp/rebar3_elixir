@@ -136,8 +136,8 @@ write_functions(IO, Module, ModuleName, Except, Only) ->
                                      lists:map(fun(E) ->
                                                    "arg" ++ integer_to_list(E)
                                                end, lists:seq(1,A)), ", "),
-                            io:format(IO, "  def unquote(:~p)(~s) do\n", [atom_to_list(N), Args]),
-                            io:format(IO, "    :erlang.apply(:~p, :~p, [~s])\n", [atom_to_list(Module), atom_to_list(N), Args]),
+                            io:format(IO, "  def unquote(:~p)(~s) do\n", [atom_to_atom(N), Args]),
+                            io:format(IO, "    :erlang.apply(:~p, :~p, [~s])\n", [atom_to_atom(Module), atom_to_atom(N), Args]),
                             io:format(IO, "  end\n", []);
                           false ->
                             ok
@@ -145,6 +145,15 @@ write_functions(IO, Module, ModuleName, Except, Only) ->
                     end, MI);
     _->
       rebar_api:abort("Can't retrieve module info for ~s", [ModuleName])
+  end.
+
+atom_to_atom(Name) ->
+  NameAsList = atom_to_list(Name),
+  case re:run(NameAsList, "^[a-z][a-zA-Z0-9@_]*$") of
+    nomatch ->
+      NameAsList;
+    _ ->
+      Name
   end.
 
 only(_, _, undefined) ->
